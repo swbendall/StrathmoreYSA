@@ -17,95 +17,16 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	
-	<link rel=”apple-touch-icon” href=”/apple-touch-icon.png”/>
-    <link rel=”apple-touch-icon-precomposed” href=”/apple-touch-icon.png”/>
-    <link rel="shortcut icon" href="/DCYSA/Images/dcysastake.ico" />
-	
-    <style>
-        .center-div {
-            margin: 0 auto;
-            width: 95%;
-        }
-
-        .center-div-full{
-            margin: 0 auto;
-            width:100%;
-        }
-
-        .navbar-header {
-            float: none;
-        }
-
-        .navbar-toggle {
-            display: block;
-        }
-
-        .navbar-collapse {
-            border-top: 1px solid transparent;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
-        }
-
-        .navbar-collapse.collapse {
-            display: none !important;
-        }
-
-        .navbar-collapse.collapse.in {
-            display: block !important;
-        }
-
-        .navbar-nav {
-            float: none !important;
-            margin: 7.5px -15px;
-        }
-
-        .navbar-nav > li {
-            float: none;
-        }
-
-        .navbar-nav > li > a {
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-    </style>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="https://dcysaministering.org"><small><b>YSA Ministering</b> | Washington DC YSA</small></a>
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="navbar-collapse collapse">
 
-
-<style>
+ <style>
     .layoutMenuItem{
         padding-top:8px !important;
         padding-bottom:8px !important;
     }
 </style>
 
-<ul class="nav navbar-nav navbar-right">
-    <li> <a class="layoutMenuItem" href="/DCYSA/Manage/About">About</a></li>
-            <li> <a class="layoutMenuItem" href="/DCYSA/Manage/ApproveUsers">Approve Users</a></li>
-    <li> <a class="layoutMenuItem" href="/DCYSA/Assignment/All">Assignments</a></li>
-            <li> <a class="layoutMenuItem" href="/DCYSA/Map/WardMap">Ward Map</a></li>
-        <li> <a class="layoutMenuItem" href="/DCYSA/Map/StakeMap">Stake Map</a></li>
-            <li> <a class="layoutMenuItem" href="/DCYSA/Assignment/WardDashboard">Ward Dashboard</a></li>
-        <li> <a class="layoutMenuItem" href="/DCYSA/Assignment/StakeDashboard">Stake Dashboard</a></li>
-    <li> <a class="layoutMenuItem" href="/DCYSA/Account/IdentitySignout">Log Out</a></li>
-</ul>
-
-        </div>
-    </nav>
-    <br>
-    <br>
-    <br>
-    
 
 <!--Leaflet-->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
@@ -121,7 +42,7 @@
 </div>
 
 <style>
-    .info {
+	.info {
         padding: 6px 8px;
         background: rgba(255,255,255,0.8);
         box-shadow: 0 0 15px rgba(0,0,0,0.2);
@@ -3527,21 +3448,20 @@
     var ward = formatWards(true);
     var stakeBuildings = formatBuildings(true);
     var otherBuildings = formatBuildings(false);
-    var activeMembers = formatMembers("Has Car");
-    var lessActiveMembers = formatMembers("Needs Ride");
-    var unknownMembers = formatMembers("unknown");
+    var activeMembers = formatMembers("has car");
+    var lessActiveMembers = formatMembers("needs ride");
     var otherMembers = formatMembers("other");
 
     var group = new L.featureGroup;
     group.addLayer(ward);
 
-    var map = L.map('map',{ layers : [osm, ward, activeMembers, otherMembers, lessActiveMembers, unknownMembers] });
+    var map = L.map('map',{ layers : [osm, ward, activeMembers, otherMembers, lessActiveMembers] });
 
     layerControl();
     legendControl();
 
     $(window).on("resize", function () { 
-        $("#map").height($(window).height() - 60); map.invalidateSize(); 
+        $("#map").height($(window).height()); map.invalidateSize(); 
         map.fitBounds(group.getBounds()); 
     }).trigger("resize");
 
@@ -3555,10 +3475,9 @@
         };
 
         var layers = {
-            "Active Members" : activeMembers,
-            "Less Active Members" : lessActiveMembers,
-            "Other Members" : otherMembers,
-            "Unknown Members" : unknownMembers,
+            "Has Car" : activeMembers,
+            "Needs Ride" : lessActiveMembers,
+            "Other" : otherMembers,
             "Stake Buildings" : stakeBuildings,
             "Other Buildings" : otherBuildings,
             "Ward" : ward,
@@ -3600,12 +3519,12 @@
 
     function formatBuildings(stakeBuilding){
         var stakeBuildingMarker = L.icon({
-            iconUrl: "/DCYSA/Images/Meetinghouse_blue.png",
+            iconUrl: "Meetinghouse_blue.png",
             iconSize: [20, 20],
 	    popupAnchor: [0, 5]
         });
         var nonStakeBuildingMarker = L.icon({
-            iconUrl: "/DCYSA/Images/Meetinghouse_grey.png",
+            iconUrl: "Meetinghouse_grey.png",
             iconSize: [20, 20],
 	    popupAnchor: [0, 5]
         });
@@ -3708,7 +3627,7 @@
             filter: function(feature, layer) {
                 var status = feature.properties.status.toLowerCase();
 
-                if (type == "other" && status != "Needs Ride" && status != "unknown" && status != "Has Car"){
+                if (type == "other" && status != "needs ride" && status != "has car"){
                     return true;
                 }
                 else if (status == type){
