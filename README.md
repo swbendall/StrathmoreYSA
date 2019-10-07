@@ -1,1 +1,4 @@
 # StrathmoreYSA
+---
+permalink: /index.html
+---
