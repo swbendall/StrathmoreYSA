@@ -1,4 +1,4 @@
 # StrathmoreYSA
 ---
-permalink: /index.html
+permalink: /indexV2.html
 ---
